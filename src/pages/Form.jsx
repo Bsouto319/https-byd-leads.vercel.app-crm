@@ -12,6 +12,8 @@ export default function Form() {
   const [error, setError] = useState('')
   const [countdown, setCountdown] = useState(5)
 
+  const progress = [form.nome.trim(), form.telefone.trim()].filter(Boolean).length * 50
+
   useEffect(() => {
     if (!success) return
     setCountdown(5)
@@ -61,308 +63,192 @@ export default function Form() {
 
   if (success) {
     return (
-      <div style={styles.page}>
-        <div style={{ textAlign: 'center', maxWidth: 480, width: '100%', padding: '0 24px' }}>
-          <div style={styles.successIcon}>
-            <svg width="52" height="52" fill="none" stroke="#34d399" viewBox="0 0 24 24">
+      <div style={s.page}>
+        <div style={{ textAlign: 'center', maxWidth: 400, padding: '0 24px' }}>
+          <div style={s.successCircle}>
+            <svg width="52" height="52" fill="none" stroke="#22c55e" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <p style={styles.successTitle}>Cadastro realizado!</p>
-          <p style={styles.successSub}>Obrigado pela participação.</p>
-          <p style={{ ...styles.successSub, opacity: 0.5, fontSize: 16, marginTop: 8, marginBottom: 48 }}>
-            Em breve você receberá novidades exclusivas da BYD.
-          </p>
-          <div style={styles.countdown}>{countdown}</div>
-          <p style={{ color: 'rgba(147,197,253,0.5)', fontSize: 14, marginTop: 12 }}>
-            Próximo visitante em {countdown}s
-          </p>
+          <p style={{ color: 'white', fontSize: 28, fontWeight: 800, fontFamily: 'Sora, sans-serif', margin: '0 0 10px' }}>Cadastro realizado!</p>
+          <p style={{ color: 'rgba(147,197,253,0.8)', fontSize: 16, margin: '0 0 8px', fontFamily: 'DM Sans, sans-serif' }}>Obrigado pela participação.</p>
+          <p style={{ color: 'rgba(147,197,253,0.5)', fontSize: 14, margin: '0 0 48px', fontFamily: 'DM Sans, sans-serif' }}>Em breve você receberá novidades exclusivas da BYD.</p>
+          <div style={s.countdown}>{countdown}</div>
+          <p style={{ color: 'rgba(147,197,253,0.4)', fontSize: 13, marginTop: 12, fontFamily: 'DM Sans, sans-serif' }}>Próximo visitante em {countdown}s</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div style={styles.page}>
-      <div style={styles.container}>
+    <div style={s.page}>
+      <div style={s.card}>
 
-        {/* Logo + título */}
-        <div style={styles.header}>
-          <div style={styles.logo}>
-            <span style={{ color: '#1e3a8a', fontWeight: 900, fontSize: 14 }}>BYD</span>
+        {/* Barra de progresso */}
+        <div style={s.progressTrack}>
+          <div style={{ ...s.progressBar, width: `${progress}%` }} />
+        </div>
+
+        {/* Header do card */}
+        <div style={s.cardHeader}>
+          <div style={s.logoBox}>
+            <span style={{ color: 'white', fontWeight: 900, fontSize: 13, fontFamily: 'Sora, sans-serif' }}>BYD</span>
           </div>
           <div>
-            <p style={styles.title}>Cadastro de Visitante</p>
-            <p style={styles.subtitle}>Preencha seus dados e receba conteúdos exclusivos da BYD</p>
+            <p style={{ color: 'white', fontSize: 19, fontWeight: 800, margin: 0, fontFamily: 'Sora, sans-serif', lineHeight: 1.2 }}>Cadastro de Visitante</p>
+            <p style={{ color: 'rgba(191,219,254,0.8)', fontSize: 13, margin: '4px 0 0', lineHeight: 1.4, fontFamily: 'DM Sans, sans-serif' }}>Preencha seus dados e receba conteúdos exclusivos</p>
           </div>
         </div>
 
-        {/* Formulário */}
-        <form onSubmit={handleSubmit} style={styles.form}>
+        {/* Corpo do card */}
+        <div style={s.cardBody}>
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
 
-          <div style={styles.field}>
-            <label style={styles.label}>Nome completo <span style={{ color: '#f87171' }}>*</span></label>
-            <input
-              type="text" name="nome" value={form.nome}
-              onChange={handleChange} placeholder="Nome e sobrenome"
-              autoComplete="off" autoCapitalize="words"
-              style={styles.input}
-              onFocus={e => Object.assign(e.target.style, styles.inputFocus)}
-              onBlur={e => Object.assign(e.target.style, styles.inputBlur)}
-            />
-          </div>
-
-          <div style={styles.field}>
-            <label style={styles.label}>Telefone / WhatsApp <span style={{ color: '#f87171' }}>*</span></label>
-            <input
-              type="tel" name="telefone" value={form.telefone}
-              onChange={handlePhone} placeholder="(61) 99999-9999"
-              autoComplete="off" inputMode="numeric"
-              style={styles.input}
-              onFocus={e => Object.assign(e.target.style, styles.inputFocus)}
-              onBlur={e => Object.assign(e.target.style, styles.inputBlur)}
-            />
-          </div>
-
-          <div style={styles.field}>
-            <label style={styles.label}>E-mail</label>
-            <input
-              type="email" name="email" value={form.email}
-              onChange={handleChange} placeholder="seu@email.com"
-              autoComplete="off" inputMode="email" autoCapitalize="none"
-              style={styles.input}
-              onFocus={e => Object.assign(e.target.style, styles.inputFocus)}
-              onBlur={e => Object.assign(e.target.style, styles.inputBlur)}
-            />
-          </div>
-
-          <div style={styles.field}>
-            <label style={styles.label}>Atividade profissional</label>
-            <input
-              type="text" name="atividade_profissional" value={form.atividade_profissional}
-              onChange={handleChange} placeholder="Ex: Médico, Empresário, Engenheiro..."
-              autoComplete="off" autoCapitalize="words"
-              style={styles.input}
-              onFocus={e => Object.assign(e.target.style, styles.inputFocus)}
-              onBlur={e => Object.assign(e.target.style, styles.inputBlur)}
-            />
-          </div>
-
-          {/* Opt-in WhatsApp */}
-          <button
-            type="button"
-            onClick={() => setForm(p => ({ ...p, aceita_whatsapp: !p.aceita_whatsapp }))}
-            style={{
-              ...styles.optIn,
-              background: form.aceita_whatsapp ? 'rgba(37,99,235,0.18)' : 'rgba(255,255,255,0.05)',
-              border: `2px solid ${form.aceita_whatsapp ? 'rgba(59,130,246,0.6)' : 'rgba(255,255,255,0.12)'}`,
-            }}
-          >
-            <div style={{
-              ...styles.checkbox,
-              background: form.aceita_whatsapp ? '#2563eb' : 'transparent',
-              border: `2px solid ${form.aceita_whatsapp ? '#2563eb' : 'rgba(255,255,255,0.3)'}`,
-            }}>
-              {form.aceita_whatsapp && (
-                <svg width="16" height="16" fill="none" stroke="white" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                </svg>
-              )}
+            <div style={s.field}>
+              <label style={s.label}>Nome completo <span style={{ color: '#ef4444' }}>*</span></label>
+              <input type="text" name="nome" value={form.nome} onChange={handleChange}
+                placeholder="Nome e sobrenome" autoComplete="off" autoCapitalize="words"
+                style={s.input}
+                onFocus={e => e.target.style.borderColor = '#2563eb'}
+                onBlur={e => e.target.style.borderColor = '#e2e8f0'} />
             </div>
-            <span style={styles.optInText}>
-              Aceito receber novidades e convites da BYD via WhatsApp
-            </span>
-          </button>
 
-          {error && (
-            <div style={styles.error}>{error}</div>
-          )}
+            <div style={s.field}>
+              <label style={s.label}>Telefone / WhatsApp <span style={{ color: '#ef4444' }}>*</span></label>
+              <input type="tel" name="telefone" value={form.telefone} onChange={handlePhone}
+                placeholder="(61) 99999-9999" autoComplete="off" inputMode="numeric"
+                style={s.input}
+                onFocus={e => e.target.style.borderColor = '#2563eb'}
+                onBlur={e => e.target.style.borderColor = '#e2e8f0'} />
+            </div>
 
-          <button type="submit" disabled={loading} style={{
-            ...styles.submit,
-            opacity: loading ? 0.6 : 1,
-            background: loading ? 'rgba(255,255,255,0.1)' : 'linear-gradient(135deg,#1d4ed8,#3b82f6)',
-          }}>
-            {loading ? 'Salvando...' : 'Confirmar Cadastro →'}
-          </button>
+            <div style={s.field}>
+              <label style={s.label}>E-mail</label>
+              <input type="email" name="email" value={form.email} onChange={handleChange}
+                placeholder="seu@email.com" autoComplete="off" inputMode="email" autoCapitalize="none"
+                style={s.input}
+                onFocus={e => e.target.style.borderColor = '#2563eb'}
+                onBlur={e => e.target.style.borderColor = '#e2e8f0'} />
+            </div>
 
-        </form>
+            <div style={s.field}>
+              <label style={s.label}>Atividade profissional</label>
+              <input type="text" name="atividade_profissional" value={form.atividade_profissional} onChange={handleChange}
+                placeholder="Ex: Médico, Empresário, Engenheiro..."
+                autoComplete="off" autoCapitalize="words"
+                style={s.input}
+                onFocus={e => e.target.style.borderColor = '#2563eb'}
+                onBlur={e => e.target.style.borderColor = '#e2e8f0'} />
+            </div>
+
+            <button type="button"
+              onClick={() => setForm(p => ({ ...p, aceita_whatsapp: !p.aceita_whatsapp }))}
+              style={{ ...s.optIn, background: form.aceita_whatsapp ? '#eff6ff' : '#f8fafc', borderColor: form.aceita_whatsapp ? '#2563eb' : '#e2e8f0' }}>
+              <div style={{ ...s.checkbox, background: form.aceita_whatsapp ? '#2563eb' : 'transparent', borderColor: form.aceita_whatsapp ? '#2563eb' : '#cbd5e1' }}>
+                {form.aceita_whatsapp && (
+                  <svg width="14" height="14" fill="none" stroke="white" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                  </svg>
+                )}
+              </div>
+              <span style={{ color: '#475569', fontSize: 14, lineHeight: 1.4, fontFamily: 'DM Sans, sans-serif' }}>
+                Aceito receber novidades e convites da BYD via WhatsApp
+              </span>
+            </button>
+
+            {error && <div style={s.error}>{error}</div>}
+
+            <button type="submit" disabled={loading} style={{ ...s.submit, opacity: loading ? 0.7 : 1 }}>
+              {loading ? 'Salvando...' : 'Confirmar Cadastro →'}
+            </button>
+
+          </form>
+        </div>
       </div>
     </div>
   )
 }
 
-const styles = {
+const s = {
   page: {
     minHeight: '100dvh',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    background: 'linear-gradient(160deg,#0a1628 0%,#0f2057 60%,#001a5e 100%)',
-    padding: '24px 16px',
-    boxSizing: 'border-box',
+    display: 'flex', alignItems: 'center', justifyContent: 'center',
+    background: 'linear-gradient(160deg, #0d2d5e 0%, #1a4a8a 40%, #0f3460 100%)',
+    padding: '24px 16px', boxSizing: 'border-box',
+    fontFamily: 'DM Sans, sans-serif',
   },
-  container: {
-    width: '100%',
-    maxWidth: 560,
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 32,
+  card: {
+    width: '100%', maxWidth: 540,
+    background: 'white', borderRadius: 20,
+    boxShadow: '0 25px 60px rgba(0,0,0,0.3)',
+    overflow: 'hidden',
   },
-  header: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 16,
+  progressTrack: { height: 4, background: '#e2e8f0' },
+  progressBar: {
+    height: '100%',
+    background: 'linear-gradient(90deg, #1a4a8a, #2563eb)',
+    transition: 'width 0.4s ease',
   },
-  logo: {
-    width: 52,
-    height: 52,
-    borderRadius: 14,
-    background: 'white',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexShrink: 0,
-    boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
+  cardHeader: {
+    background: 'linear-gradient(135deg, #1a4a8a, #0d2d5e)',
+    padding: '22px 28px',
+    display: 'flex', alignItems: 'center', gap: 16,
   },
-  title: {
-    color: 'white',
-    fontSize: 22,
-    fontWeight: 900,
-    margin: 0,
-    lineHeight: 1.2,
+  logoBox: {
+    width: 46, height: 46, borderRadius: 12,
+    background: 'rgba(255,255,255,0.15)',
+    border: '1.5px solid rgba(255,255,255,0.25)',
+    display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
   },
-  subtitle: {
-    color: 'rgba(147,197,253,0.6)',
-    fontSize: 14,
-    margin: '4px 0 0',
-    lineHeight: 1.4,
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 18,
-  },
-  field: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 8,
-  },
-  label: {
-    color: 'rgba(147,197,253,0.7)',
-    fontSize: 13,
-    fontWeight: 700,
-    textTransform: 'uppercase',
-    letterSpacing: '0.08em',
-    paddingLeft: 4,
-  },
+  cardBody: { padding: '24px 28px 28px' },
+  field: { display: 'flex', flexDirection: 'column', gap: 6 },
+  label: { color: '#475569', fontSize: 13, fontWeight: 600 },
   input: {
-    width: '100%',
-    padding: '20px 20px',
-    borderRadius: 16,
-    border: '2px solid rgba(255,255,255,0.12)',
-    background: 'rgba(255,255,255,0.07)',
-    color: 'white',
-    fontSize: 18,
-    outline: 'none',
-    boxSizing: 'border-box',
-    transition: 'border-color 0.2s, background 0.2s',
+    width: '100%', padding: '13px 16px',
+    borderRadius: 10, border: '1.5px solid #e2e8f0',
+    background: '#f8fafc', color: '#0f172a',
+    fontSize: 16, outline: 'none', boxSizing: 'border-box',
+    transition: 'border-color 0.2s', fontFamily: 'DM Sans, sans-serif',
     WebkitAppearance: 'none',
-    fontFamily: 'inherit',
-  },
-  inputFocus: {
-    borderColor: 'rgba(59,130,246,0.7)',
-    background: 'rgba(255,255,255,0.1)',
-  },
-  inputBlur: {
-    borderColor: 'rgba(255,255,255,0.12)',
-    background: 'rgba(255,255,255,0.07)',
   },
   optIn: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 16,
-    padding: '18px 20px',
-    borderRadius: 16,
-    cursor: 'pointer',
-    textAlign: 'left',
-    width: '100%',
-    boxSizing: 'border-box',
+    display: 'flex', alignItems: 'center', gap: 12,
+    padding: '14px 16px', borderRadius: 10,
+    border: '1.5px solid', cursor: 'pointer',
+    textAlign: 'left', width: '100%', boxSizing: 'border-box',
     transition: 'all 0.2s',
   },
   checkbox: {
-    width: 28,
-    height: 28,
-    borderRadius: 8,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexShrink: 0,
+    width: 24, height: 24, borderRadius: 6,
+    border: '1.5px solid', flexShrink: 0,
+    display: 'flex', alignItems: 'center', justifyContent: 'center',
     transition: 'all 0.2s',
-  },
-  optInText: {
-    color: 'rgba(219,234,254,0.8)',
-    fontSize: 15,
-    lineHeight: 1.4,
-    fontFamily: 'inherit',
   },
   submit: {
-    width: '100%',
-    padding: '22px',
-    borderRadius: 16,
-    border: 'none',
-    color: 'white',
-    fontSize: 18,
-    fontWeight: 900,
-    cursor: 'pointer',
-    transition: 'all 0.2s',
-    boxShadow: '0 8px 32px rgba(37,99,235,0.4)',
-    marginTop: 6,
-    fontFamily: 'inherit',
-    letterSpacing: '0.01em',
+    width: '100%', padding: '16px',
+    borderRadius: 12, border: 'none',
+    background: 'linear-gradient(135deg, #1a4a8a, #2563eb)',
+    color: 'white', fontSize: 16, fontWeight: 800,
+    fontFamily: 'Sora, sans-serif',
+    cursor: 'pointer', transition: 'opacity 0.2s',
+    boxShadow: '0 8px 24px rgba(37,99,235,0.35)', marginTop: 4,
   },
   error: {
-    color: '#fca5a5',
-    fontSize: 14,
-    textAlign: 'center',
-    background: 'rgba(239,68,68,0.1)',
-    border: '1px solid rgba(239,68,68,0.25)',
-    borderRadius: 12,
-    padding: '12px 16px',
+    color: '#dc2626', fontSize: 13, textAlign: 'center',
+    background: '#fef2f2', border: '1px solid #fecaca',
+    borderRadius: 10, padding: '10px 14px',
   },
-  successIcon: {
-    width: 96,
-    height: 96,
-    borderRadius: '50%',
-    background: 'rgba(52,211,153,0.12)',
-    border: '2px solid rgba(52,211,153,0.3)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    margin: '0 auto 32px',
-  },
-  successTitle: {
-    color: 'white',
-    fontSize: 32,
-    fontWeight: 900,
-    margin: '0 0 12px',
-  },
-  successSub: {
-    color: '#93c5fd',
-    fontSize: 18,
-    margin: 0,
+  successCircle: {
+    width: 96, height: 96, borderRadius: '50%',
+    background: 'rgba(34,197,94,0.1)', border: '2px solid rgba(34,197,94,0.3)',
+    display: 'flex', alignItems: 'center', justifyContent: 'center',
+    margin: '0 auto 28px',
   },
   countdown: {
-    width: 80,
-    height: 80,
-    borderRadius: '50%',
+    width: 72, height: 72, borderRadius: '50%',
     border: '3px solid rgba(255,255,255,0.2)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    margin: '0 auto',
-    color: 'white',
-    fontSize: 32,
-    fontWeight: 900,
+    display: 'flex', alignItems: 'center', justifyContent: 'center',
+    margin: '0 auto', color: 'white', fontSize: 28, fontWeight: 900,
+    fontFamily: 'Sora, sans-serif',
   },
 }
