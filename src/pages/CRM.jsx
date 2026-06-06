@@ -104,9 +104,10 @@ export default function CRM() {
     if (!selected) return
     if (!confirm(`Excluir lead "${selected.nome}"?`)) return
     setDeleting(true)
-    await supabase.from('byd_leads').delete().eq('id', selected.id)
-    setLeads(prev => prev.filter(l => l.id !== selected.id))
+    const { error } = await supabase.from('byd_leads').delete().eq('id', selected.id)
     setDeleting(false)
+    if (error) { alert(`Erro ao excluir: ${error.message}`); return }
+    setLeads(prev => prev.filter(l => l.id !== selected.id))
     setSelected(null)
   }
 
