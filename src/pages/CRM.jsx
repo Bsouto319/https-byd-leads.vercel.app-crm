@@ -54,6 +54,23 @@ export default function CRM() {
 
   useEffect(() => { if (auth) fetchLeads() }, [auth])
 
+  useEffect(() => {
+    if (!auth) return
+    const channel = supabase
+      .channel('byd_realtime')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'byd_leads' }, payload => {
+        if (payload.eventType === 'INSERT') {
+          setLeads(prev => [payload.new, ...prev])
+        } else if (payload.eventType === 'UPDATE') {
+          setLeads(prev => prev.map(l => l.id === payload.new.id ? payload.new : l))
+        } else if (payload.eventType === 'DELETE') {
+          setLeads(prev => prev.filter(l => l.id !== payload.old.id))
+        }
+      })
+      .subscribe()
+    return () => supabase.removeChannel(channel)
+  }, [auth])
+
   async function fetchLeads() {
     setLoading(true)
     const { data } = await supabase.from('byd_leads').select('*').order('created_at', { ascending: false })
